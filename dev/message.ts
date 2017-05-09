@@ -1,4 +1,4 @@
-class Message {
+export class Message {
          
     constructor(str:string) {
         let div:HTMLElement = document.createElement("message");

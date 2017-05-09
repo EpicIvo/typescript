@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
-        "sourceMap":  true,
-        "removeComments": true,
-        "target":"es5",
+        "outDir": "./dist/",
+        "sourceMap": true,
         "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "out": "docs/js/main.js"
+        "module": "commonjs",
+        "target": "es6",
+        "jsx": "react",
+        "allowJs": true
     },
     "exclude": [
         "node_modules",
-        "docs"
+        "dist"
     ]
 }
