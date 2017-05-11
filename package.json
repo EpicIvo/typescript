@@ -1,0 +1,34 @@
+{
+  "name": "prg04_week0",
+  "version": "1.0.0",
+  "description": "prg04",
+  "main": "dist/index.html",
+  "scripts": {
+    "start": "rm -rf dist/js/main.js && webpack && webpack-dev-server --config webpack.config.babel.js",
+    "just-webpack": "webpack --config webpack.config.babel.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EpicIvo/typescript.git"
+  },
+  "author": "Ivo van der Knaap",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EpicIvo/typescript/issues"
+  },
+  "homepage": "https://github.com/EpicIvo/typescript#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.1.3",
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "path": "^0.12.7",
+    "source-map-loader": "^0.2.1",
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.3.2",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "dependencies": {
+    "typescript": "^2.3.2",
+    "webpack": "^2.4.1"
+  }
+}

@@ -1,9 +1,9 @@
-import { Message } from './message';
+import { GameObject } from './gameobject';
 
 class Main {
     constructor() {
-       let mOne:Message = new Message("Je");
-       let mTwo:Message = new Message("moeder");
+       let mOne:GameObject = new GameObject("Ivo");
+       let mTwo:GameObject = new GameObject("Hi");
     }
 } 
 
