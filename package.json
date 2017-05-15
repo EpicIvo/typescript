@@ -4,7 +4,7 @@
   "description": "prg04",
   "main": "dist/index.html",
   "scripts": {
-    "start": "rm -rf dist/js/main.js && webpack && webpack-dev-server --config webpack.config.babel.js",
+    "start": "rm -rf dist/js/main.js && webpack && webpack-dev-server --config webpack.config.babel.js --hot --inline",
     "just-webpack": "webpack --config webpack.config.babel.js"
   },
   "repository": {
@@ -23,9 +23,9 @@
     "babel-preset-es2015": "^6.24.1",
     "path": "^0.12.7",
     "source-map-loader": "^0.2.1",
-    "ts-loader": "^2.0.3",
     "typescript": "^2.3.2",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "webpack-hot-middleware": "^2.18.0"
   },
   "dependencies": {
     "typescript": "^2.3.2",

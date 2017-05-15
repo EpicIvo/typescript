@@ -1,7 +1,11 @@
 import path from 'path';
+import webpack from 'webpack';
 
 export default {
-  entry: './dev/main.ts',
+  entry: [
+    "webpack/hot/only-dev-server",
+    "./dev/main.ts"
+  ],
   output: {
     filename: 'main.js',
     path: __dirname + '/dist/js/'
@@ -18,7 +22,11 @@ export default {
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ],
   devServer: {
+    hot: true,
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 9000

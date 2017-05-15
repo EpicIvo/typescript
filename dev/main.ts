@@ -1,13 +1,10 @@
-import { GameObject } from './gameobject';
+import Player, {default as player} from './player/player';
 
 class Main {
     constructor() {
-       let mOne:GameObject = new GameObject("Ivo");
-       let mTwo:GameObject = new GameObject("Hi");
+      let player1:Player = new Player();
     }
-} 
-
-console.log('hi');
+}
 
 // hier starten we de applicatie
 window.addEventListener("load", function() {
