@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1eebc753074932db2d04"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5cfc54bb141763d9523c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -704,7 +704,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(7)(__webpack_require__.s = 7);
+/******/ 	return hotCreateRequire(8)(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -714,7 +714,7 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const player_1 = __webpack_require__(3);
+const player_1 = __webpack_require__(4);
 class Main {
     constructor() {
         let player1 = new player_1.default();
@@ -766,7 +766,7 @@ if(true) {
 					check();
 				}
 
-				__webpack_require__(6)(updatedModules, renewedModules);
+				__webpack_require__(7)(updatedModules, renewedModules);
 
 				if(upToDate()) {
 					console.log("[HMR] App is up to date.");
@@ -782,7 +782,7 @@ if(true) {
 			}
 		});
 	};
-	var hotEmitter = __webpack_require__(5);
+	var hotEmitter = __webpack_require__(6);
 	hotEmitter.on("webpackHotUpdate", function(currentHash) {
 		lastHash = currentHash;
 		if(!upToDate()) {
@@ -828,30 +828,41 @@ exports.default = GameObject;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+class KeyboardInput {
+    constructor() {
+        document.addEventListener('keydown', this.keyboardEventListener);
+    }
+    keyboardEventListener(event) {
+        console.log(event);
+    }
+}
+exports.default = KeyboardInput;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const gameobject_1 = __webpack_require__(2);
+const keyboardInput_1 = __webpack_require__(3);
 class player extends gameobject_1.default {
     constructor() {
         super(77.2, 99.6, 'img');
         this.bottomYPos = window.innerHeight - 197;
+        this.KeyboardInput = new keyboardInput_1.default();
         this.element.className = 'player';
         this.element.setAttribute('src', 'img/player.png');
         this.element.style.webkitTransform = 'translateY(' + this.bottomYPos + 'px)';
-        // Listeners
-        window.addEventListener("keydown", function (event) {
-            if (event.keyCode == 65) {
-                moveBy(10, 0);
-            }
-        });
-    }
-    moveRight() {
-        this.x += 10;
     }
 }
 exports.default = player;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -1159,15 +1170,15 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var EventEmitter = __webpack_require__(4);
+var EventEmitter = __webpack_require__(5);
 module.exports = new EventEmitter();
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*
@@ -1203,7 +1214,7 @@ module.exports = function(updatedModules, renewedModules) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
