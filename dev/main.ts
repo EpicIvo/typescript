@@ -2,14 +2,21 @@ import Player from "./player/Player";
 import Checkpoint from "./checkpoint/Checkpoint";
 
 class Game {
+
+  private player:Player;
+  private checkpoints: Array<Checkpoint> = [];
+
   constructor() {
-    let player1: Player = new Player();
-    let checkpoint1: Checkpoint = new Checkpoint(16);
-    this.gameLoop();
+    this.player = new Player();
+    let checkpoints: Array<Checkpoint> = new Array<Checkpoint>(16);
+    requestAnimationFrame(() => this.gameLoop());
   }
 
   gameLoop = (): void => {
-    requestAnimationFrame(this.gameLoop);
+
+    this.player.draw();
+    // Loop the game
+    requestAnimationFrame(() => this.gameLoop());
   }
 }
 
