@@ -1,10 +1,10 @@
 export default class GameObject {
 
-  protected xPos:number;
-  protected yPos:number;
+  public xPos:number;
+  public yPos:number;
   protected width:number;
   protected heigth:number;
-  protected element:HTMLElement;
+  public element:HTMLElement;
 
   constructor(width:number, heigth:number, element:string) {
     this.heigth = heigth;

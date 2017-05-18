@@ -7,10 +7,12 @@ class Game {
     let checkpoint1: Checkpoint = new Checkpoint(16);
     this.gameLoop();
   }
+
   gameLoop = (): void => {
     requestAnimationFrame(this.gameLoop);
   }
 }
+
 // hier starten we de applicatie
 window.addEventListener("load", function () {
   new Game();

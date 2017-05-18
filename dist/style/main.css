@@ -1,5 +1,14 @@
 @import "player/player.css";
 
+*{
+    position: absolute;
+}
+
+.timer{
+    text-align: center;
+    width: 400px;
+}
+
 body {
     font-family: Montserrat, Arial, sans-serif;
     font-size:20px;
