@@ -1,7 +1,7 @@
 export default class GameObject {
 
-  protected x:number;
-  protected y:number;
+  protected xPos:number;
+  protected yPos:number;
   protected width:number;
   protected heigth:number;
   protected element:HTMLElement;
