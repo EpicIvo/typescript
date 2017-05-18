@@ -1,11 +1,11 @@
 import gameobject from '../gameobject';
 
-export default class player extends gameobject {
+export default class Player extends gameobject {
 
   constructor() {
     super(77.2, 99.6, 'img');
     // Player position
-    this.yPos = window.innerHeight - 197;
+    this.yPos = window.innerHeight - (this.heigth * 1.2);
     this.xPos = 20;
     // Player element
     this.element.className = 'player';
@@ -17,16 +17,16 @@ export default class player extends gameobject {
   }
 
   public moveRight(){
-    this.xPos += 10;
+    this.xPos += 15;
     this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
   }
 
   public moveLeft(){
-    this.xPos -= 10;
+    this.xPos -= 15;
     this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
   }
 
-  keyboardEventListener = (event: KeyboardEvent): void => {
+  private keyboardEventListener = (event: KeyboardEvent): void => {
     switch (event.key) {
       case "d":
         this.moveRight();
