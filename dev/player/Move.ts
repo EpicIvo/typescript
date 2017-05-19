@@ -5,19 +5,41 @@ export default class Move implements Behaviour{
 
   public player: Player;
 
-  private speed: number;
+  private horVel: number;
+  private verVel: number;
 
-  constructor(p: Player, speed: number){
+  private currentY: number;
+  public jumpUp: boolean = false;
+
+  constructor(p: Player, horVel: number, verVel: number){
     this.player = p;
-    this.speed = speed;
+    this.horVel = horVel;
+    this.verVel = verVel;
+    this.currentY = this.player.yPos;
   }
   public moveRight(){
-    this.player.xPos += this.speed;
+    this.player.xPos += this.horVel;
   }
   public moveLeft(){
-    this.player.xPos = this.player.xPos - this.speed;
+    this.player.xPos -= this.horVel;
   }
+
+  //TODO: fix this jumping dude!
   public jump(){
-    console.log("jump");
+
+    console.log(this.verVel);
+
+    if (this.player.yPos > this.currentY - 100 && this.jumpUp) {
+      this.verVel *= 0.999;
+      this.player.yPos -= this.verVel;
+    } else if (this.player.yPos < this.currentY){
+      this.jumpUp = false;
+    }
+
+    if (!this.jumpUp && this.player.yPos < this.currentY){
+      this.verVel *= 1.001;
+      this.player.yPos += this.verVel;
+    }
+
   }
 }

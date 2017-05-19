@@ -5,20 +5,24 @@ import Move from './Move';
 export default class Player extends gameobject {
   public Behaviour: Behaviour;
 
-  private speed: number;
+  private horVel: number;
+  public verVel: number;
 
   private DPressed: boolean = false;
   private APressed: boolean = false;
+  public jumping: boolean = false;
 
   private rightBorderHit: boolean = false;
   private leftBorderHit: boolean = false;
+  private bottomBorderHit: boolean = false;
 
   constructor() {
     super(77.2, 99.6, 'img');
     // Player position
     this.yPos = window.innerHeight - (this.heigth * 1.2);
     this.xPos = 20;
-    this.speed = 10;
+    this.horVel = 10;
+    this.verVel = 2;
     // Player element
     this.element.className = 'player';
     this.element.setAttribute('src', 'img/player.png');
@@ -27,7 +31,7 @@ export default class Player extends gameobject {
     document.addEventListener('keydown', this.keyboardDownEventListener);
     document.addEventListener('keyup', this.keyboardUpEventListener);
     // Behaviours
-    this.Behaviour = new Move(this, this.speed);
+    this.Behaviour = new Move(this, this.horVel, this.verVel);
   }
 
   public draw = (): void => {
@@ -40,9 +44,21 @@ export default class Player extends gameobject {
       this.Behaviour.moveLeft();
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
     }
+
+    if (this.jumping && this.DPressed){
+      this.Behaviour.jump();
+      this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
+    }else if (this.jumping) {
+      this.Behaviour.jump();
+      this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
+    }
+
+    console.log(this.jumping);
+
   };
 
   private checkForScreenBorders = (): void => {
+    // Left and right
     if (this.xPos + (this.width * 1.40) > window.innerWidth){ // Ugly af tho
       console.log("Hit right border");
       this.rightBorderHit = true;
@@ -53,6 +69,12 @@ export default class Player extends gameobject {
       this.leftBorderHit = false;
       this.rightBorderHit = false;
     }
+    // Bottom
+    if (this.xPos > window.innerHeight){
+      this.bottomBorderHit = true;
+      this.jumping = false;
+      this.verVel = 2;
+    }
   };
 
   public keyboardDownEventListener = (event: KeyboardEvent): void => {
@@ -61,11 +83,12 @@ export default class Player extends gameobject {
         this.DPressed = true;
         break;
       case "a":
-        this.speed *= -1;
+        this.horVel *= -1;
         this.APressed = true;
         break;
       case " ":
-        this.Behaviour.jump();
+        this.jumping = true;
+        this.Behaviour.jumpUp = true;
         break;
       default:
         break;
@@ -81,7 +104,6 @@ export default class Player extends gameobject {
         this.APressed = false;
         break;
       case " ":
-        this.Behaviour.jump();
         break;
       default:
         break;
