@@ -10,7 +10,7 @@ export default class Player extends gameobject {
 
   private DPressed: boolean = false;
   private APressed: boolean = false;
-  public jumping: boolean = false;
+  //public jumping: boolean = false;
 
   private rightBorderHit: boolean = false;
   private leftBorderHit: boolean = false;
@@ -45,13 +45,13 @@ export default class Player extends gameobject {
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
     }
 
-    if (this.jumping && this.DPressed){
-      this.Behaviour.jump();
-      this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
-    }else if (this.jumping) {
-      this.Behaviour.jump();
-      this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
-    }
+    // if (this.jumping && this.DPressed){
+    //   this.Behaviour.jump();
+    //   this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
+    // }else if (this.jumping) {
+    //   this.Behaviour.jump();
+    //   this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
+    // }
   };
 
   private checkForScreenBorders = (): void => {
@@ -67,7 +67,7 @@ export default class Player extends gameobject {
     // Bottom
     if (this.xPos > window.innerHeight){
       this.bottomBorderHit = true;
-      this.jumping = false;
+      //this.jumping = false;
       this.verVel = 2;
     }
   };
@@ -82,8 +82,8 @@ export default class Player extends gameobject {
         this.APressed = true;
         break;
       case " ":
-        this.jumping = true;
-        this.Behaviour.jumpUp = true;
+        //this.jumping = true;
+        //this.Behaviour.jumpUp = true;
         break;
       default:
         break;

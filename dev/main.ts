@@ -18,12 +18,17 @@ class Game {
 
   gameLoop = (): void => {
     if(this.util.checkCollision(this.player, this.checkpoint1)){
-      console.log("collision!");
+      this.gameEnd();
     }
     this.player.draw();
     // Loop the game
     requestAnimationFrame(() => this.gameLoop());
   }
+
+  gameEnd = (): void => {
+    this.checkpoint1.endGame();
+  }
+
 }
 
 // hier starten we de applicatie

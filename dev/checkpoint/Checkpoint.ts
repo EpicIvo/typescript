@@ -3,6 +3,7 @@ import gameobject from '../gameobject';
 export default class Checkpoint extends gameobject {
 
   private timeToLive: number;
+  private counting: number;
 
   constructor(timeToLive: number) {
     super(100, 100, 'img');
@@ -24,9 +25,16 @@ export default class Checkpoint extends gameobject {
     if (this.timeToLive > 0) {
       this.timeToLive -= 1;
       document.getElementById('timer').innerHTML = "Seconds left: " + this.timeToLive;
-      setTimeout(this.countDown, 1000);
+      this.counting = setTimeout(this.countDown, 1000);
     } else {
       document.getElementById('timer').innerHTML = "Game over!";
     }
   }
+
+  public endGame = (): void => {
+    clearTimeout(this.counting);
+    document.getElementById('timer').innerHTML = "Score: " + this.timeToLive;
+    this.element.remove();
+  }
+
 }
