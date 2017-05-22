@@ -26,9 +26,6 @@ export default class Move implements Behaviour{
 
   //TODO: fix this jumping dude!
   public jump(){
-
-    console.log(this.verVel);
-
     if (this.player.yPos > this.currentY - 100 && this.jumpUp) {
       this.verVel *= 0.999;
       this.player.yPos -= this.verVel;

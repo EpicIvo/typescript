@@ -11,7 +11,7 @@ export default class Checkpoint extends gameobject {
     this.element.setAttribute('src', 'img/potion.png');
 
     // Set position
-    this.yPos = window.innerHeight - this.heigth;
+    this.yPos = window.innerHeight - this.height;
     this.xPos = window.innerWidth - (this.width * 2);
     this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
 

@@ -19,10 +19,10 @@ export default class Player extends gameobject {
   constructor() {
     super(77.2, 99.6, 'img');
     // Player position
-    this.yPos = window.innerHeight - (this.heigth * 1.2);
+    this.yPos = window.innerHeight - (this.height * 1.2);
     this.xPos = 20;
     this.horVel = 10;
-    this.verVel = 2;
+    this.verVel = 8;
     // Player element
     this.element.className = 'player';
     this.element.setAttribute('src', 'img/player.png');
@@ -52,18 +52,13 @@ export default class Player extends gameobject {
       this.Behaviour.jump();
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
     }
-
-    console.log(this.jumping);
-
   };
 
   private checkForScreenBorders = (): void => {
     // Left and right
     if (this.xPos + (this.width * 1.40) > window.innerWidth){ // Ugly af tho
-      console.log("Hit right border");
       this.rightBorderHit = true;
     } else if (this.xPos + (this.width * 0.15) < 0){
-      console.log("Hit left border");
       this.leftBorderHit = true;
     }else{
       this.leftBorderHit = false;
