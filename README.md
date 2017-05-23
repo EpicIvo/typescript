@@ -1,5 +1,7 @@
 # Typescript game
 
+`http://ivovanderknaap.nl/typescript/dist/`
+
 ### UML - diagram
 
 ![UML diagram](./uml/uml.png)
