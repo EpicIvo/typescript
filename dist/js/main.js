@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5cfc54bb141763d9523c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f262ab24cb7f025b674b"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -704,7 +704,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(8)(__webpack_require__.s = 8);
+/******/ 	return hotCreateRequire(10)(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -714,20 +714,62 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const player_1 = __webpack_require__(4);
-class Main {
-    constructor() {
-        let player1 = new player_1.default();
+class GameObject {
+    constructor(width, height, element) {
+        this.height = height;
+        this.width = width;
+        this.element = document.createElement(element);
+        this.element.style.height = this.height.toString() + 'px';
+        this.element.style.width = this.width.toString() + 'px';
+        document.body.appendChild(this.element);
     }
 }
-// hier starten we de applicatie
-window.addEventListener("load", function () {
-    new Main();
-});
+exports.default = GameObject;
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const Player_1 = __webpack_require__(5);
+const Checkpoint_1 = __webpack_require__(3);
+const Util_1 = __webpack_require__(6);
+class Game {
+    constructor() {
+        this.gameLoop = () => {
+            if (this.util.checkCollision(this.player, this.checkpoint1)) {
+                this.gameEnd();
+            }
+            this.player.draw();
+            // Loop the game
+            requestAnimationFrame(() => this.gameLoop());
+        };
+        this.gameEnd = () => {
+            this.checkpoint1.endGame();
+        };
+        this.util = new Util_1.default();
+        this.player = new Player_1.default();
+        this.checkpoint1 = new Checkpoint_1.default(16);
+        requestAnimationFrame(() => this.gameLoop());
+    }
+}
+Game.getInstance = () => {
+    if (!Game.instance) {
+        Game.instance = new Game();
+    }
+    return Game.instance;
+};
+// hier starten we de applicatie
+window.addEventListener("load", function () {
+    let game = Game.getInstance();
+});
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -766,7 +808,7 @@ if(true) {
 					check();
 				}
 
-				__webpack_require__(7)(updatedModules, renewedModules);
+				__webpack_require__(9)(updatedModules, renewedModules);
 
 				if(upToDate()) {
 					console.log("[HMR] App is up to date.");
@@ -782,7 +824,7 @@ if(true) {
 			}
 		});
 	};
-	var hotEmitter = __webpack_require__(6);
+	var hotEmitter = __webpack_require__(8);
 	hotEmitter.on("webpackHotUpdate", function(currentHash) {
 		lastHash = currentHash;
 		if(!upToDate()) {
@@ -802,41 +844,44 @@ if(true) {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class GameObject {
-    constructor(width, heigth, element) {
-        this.heigth = heigth;
-        this.width = width;
-        this.element = document.createElement(element);
-        this.element.style.height = this.heigth.toString() + 'px';
-        this.element.style.width = this.width.toString() + 'px';
-        document.body.appendChild(this.element);
-    }
-}
-exports.default = GameObject;
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-class KeyboardInput {
-    constructor() {
-        document.addEventListener('keydown', this.keyboardEventListener);
-    }
-    keyboardEventListener(event) {
-        console.log(event);
+const gameobject_1 = __webpack_require__(0);
+class Checkpoint extends gameobject_1.default {
+    constructor(timeToLive) {
+        super(100, 100, 'img');
+        this.countDown = () => {
+            if (this.timeToLive > 0) {
+                this.timeToLive -= 1;
+                document.getElementById('timer').innerHTML = "Seconds left: " + this.timeToLive;
+                this.counting = setTimeout(this.countDown, 1000);
+            }
+            else {
+                document.getElementById('timer').innerHTML = "Game over!";
+            }
+        };
+        this.endGame = () => {
+            clearTimeout(this.counting);
+            document.getElementById('timer').innerHTML = "Score: " + this.timeToLive;
+            this.element.remove();
+        };
+        // Fill element
+        this.element.className = 'checkpoint';
+        this.element.setAttribute('src', 'img/potion.png');
+        // Set position
+        this.yPos = window.innerHeight - this.height;
+        this.xPos = window.innerWidth - (this.width * 2);
+        this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
+        //Extra vars
+        this.timeToLive = timeToLive;
+        this.countDown();
     }
 }
-exports.default = KeyboardInput;
+exports.default = Checkpoint;
 
 
 /***/ }),
@@ -846,23 +891,153 @@ exports.default = KeyboardInput;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const gameobject_1 = __webpack_require__(2);
-const keyboardInput_1 = __webpack_require__(3);
-class player extends gameobject_1.default {
-    constructor() {
-        super(77.2, 99.6, 'img');
-        this.bottomYPos = window.innerHeight - 197;
-        this.KeyboardInput = new keyboardInput_1.default();
-        this.element.className = 'player';
-        this.element.setAttribute('src', 'img/player.png');
-        this.element.style.webkitTransform = 'translateY(' + this.bottomYPos + 'px)';
+class Move {
+    //public jumpUp: boolean = false;
+    constructor(p, horVel, verVel) {
+        this.player = p;
+        this.horVel = horVel;
+        this.verVel = verVel;
+        this.currentY = this.player.yPos;
+    }
+    moveRight() {
+        this.player.xPos += this.horVel;
+    }
+    moveLeft() {
+        this.player.xPos -= this.horVel;
     }
 }
-exports.default = player;
+exports.default = Move;
 
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const gameobject_1 = __webpack_require__(0);
+const Move_1 = __webpack_require__(4);
+class Player extends gameobject_1.default {
+    constructor() {
+        super(77.2, 99.6, 'img');
+        this.DPressed = false;
+        this.APressed = false;
+        //public jumping: boolean = false;
+        this.rightBorderHit = false;
+        this.leftBorderHit = false;
+        this.bottomBorderHit = false;
+        this.draw = () => {
+            this.checkForScreenBorders();
+            if (this.DPressed && this.rightBorderHit == false) {
+                this.Behaviour.moveRight();
+                this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
+            }
+            if (this.APressed && this.leftBorderHit == false) {
+                this.Behaviour.moveLeft();
+                this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
+            }
+            // if (this.jumping && this.DPressed){
+            //   this.Behaviour.jump();
+            //   this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
+            // }else if (this.jumping) {
+            //   this.Behaviour.jump();
+            //   this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
+            // }
+        };
+        this.checkForScreenBorders = () => {
+            // Left and right
+            if (this.xPos + (this.width * 1.40) > window.innerWidth) {
+                this.rightBorderHit = true;
+            }
+            else if (this.xPos + (this.width * 0.15) < 0) {
+                this.leftBorderHit = true;
+            }
+            else {
+                this.leftBorderHit = false;
+                this.rightBorderHit = false;
+            }
+            // Bottom
+            if (this.xPos > window.innerHeight) {
+                this.bottomBorderHit = true;
+                //this.jumping = false;
+                this.verVel = 2;
+            }
+        };
+        this.keyboardDownEventListener = (event) => {
+            switch (event.key) {
+                case "d":
+                    this.DPressed = true;
+                    break;
+                case "a":
+                    this.horVel *= -1;
+                    this.APressed = true;
+                    break;
+                case " ":
+                    //this.jumping = true;
+                    //this.Behaviour.jumpUp = true;
+                    break;
+                default:
+                    break;
+            }
+        };
+        this.keyboardUpEventListener = (event) => {
+            switch (event.key) {
+                case "d":
+                    this.DPressed = false;
+                    break;
+                case "a":
+                    this.APressed = false;
+                    break;
+                case " ":
+                    break;
+                default:
+                    break;
+            }
+        };
+        // Player position
+        this.yPos = window.innerHeight - (this.height * 1.2);
+        this.xPos = 20;
+        this.horVel = 10;
+        this.verVel = 8;
+        // Player element
+        this.element.className = 'player';
+        this.element.setAttribute('src', 'img/player.png');
+        this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
+        // Keyboard input
+        document.addEventListener('keydown', this.keyboardDownEventListener);
+        document.addEventListener('keyup', this.keyboardUpEventListener);
+        // Behaviours
+        this.Behaviour = new Move_1.default(this, this.horVel, this.verVel);
+    }
+}
+exports.default = Player;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Util {
+    constructor() {
+        this.checkCollision = (instance1, instance2) => {
+            if (instance1.xPos < instance2.xPos + instance2.width &&
+                instance1.xPos + instance1.width > instance2.xPos &&
+                instance1.yPos < instance2.yPos + instance2.height &&
+                instance1.height + instance1.yPos > instance2.yPos) {
+                return true;
+            }
+        };
+    }
+}
+exports.default = Util;
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -1170,15 +1345,15 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var EventEmitter = __webpack_require__(5);
+var EventEmitter = __webpack_require__(7);
 module.exports = new EventEmitter();
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports) {
 
 /*
@@ -1214,11 +1389,11 @@ module.exports = function(updatedModules, renewedModules) {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(1);
-module.exports = __webpack_require__(0);
+__webpack_require__(2);
+module.exports = __webpack_require__(1);
 
 
 /***/ })
