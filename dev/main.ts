@@ -36,6 +36,10 @@ class Game {
 
   gameEnd = (): void => {
     this.checkpoint1.endGame();
+    this.player = null;
+    this.checkpoint1 = null;
+    this.player.element.removeChild(this.player.element);
+    this.checkpoint1.element.removeChild(this.checkpoint1.element);
   }
 }
 

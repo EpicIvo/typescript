@@ -38,3 +38,15 @@ The game has a player and a checkpoint.
 #### Inheritance
 
 There is a base class called gameObject that has standard properties. The player and checkpoint class extend this class.
+
+### Feedback
+
+De Game krijgt van mij een voldoende. 
+- Interface is aanwezige in behaviour met de bijbehorende functies. In dit geval Move die Behaviour implement. 
+- De Util method is static gemaakt en controleert of twee objecten elkaar raken.
+- De Game class is een singleton gemaakt. private static instance: Game; en daarna het gebruik van getInstance.
+- In player wordt niet het lopen afgehandeld, dit wordt in Move gedaan waardoor code gescheiden blijft en er dus Strategy is.
+- Er wordt gebruik gemaakt van public, private en protected functies.
+- De player heeft een checkpoint en er dus composition.
+- GameObject is aangemaakt en hieruit erft checkpoint en player. Er is dus extends functies en daardoor ook inheritance.
+- Toevoeging: player en checkpoint removement toegevoegd.

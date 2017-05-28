@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f262ab24cb7f025b674b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5448efad0c2ffc3bd600"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -631,7 +631,9 @@
 /******/ 		}
 /******/ 	
 /******/ 		hotSetStatus("idle");
-/******/ 		return Promise.resolve(outdatedModules);
+/******/ 		return new Promise(function(resolve) {
+/******/ 			resolve(outdatedModules);
+/******/ 		});
 /******/ 	}
 /******/
 /******/ 	// The module cache
@@ -742,6 +744,7 @@ class Game {
         this.gameLoop = () => {
             if (this.util.checkCollision(this.player, this.checkpoint1)) {
                 this.gameEnd();
+                this.player = null;
             }
             this.player.draw();
             // Loop the game
