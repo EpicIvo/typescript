@@ -30,6 +30,7 @@ class Game {
       this.gameEnd();
     }
     this.player.draw();
+    this.util.checkForScreenBorders(this.player);
     // Loop the game
     requestAnimationFrame(() => this.gameLoop());
   };

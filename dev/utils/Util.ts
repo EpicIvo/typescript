@@ -9,4 +9,21 @@ export default class Util {
       return true;
     }
   }
+  checkForScreenBorders = (player: any): void => {
+    // Left and right
+    if (player.xPos + (player.width * 1.40) > window.innerWidth){ // Ugly af tho
+      player.rightBorderHit = true;
+    } else if (player.xPos + (player.width * 0.15) < 0){
+      player.leftBorderHit = true;
+    }else{
+      player.leftBorderHit = false;
+      player.rightBorderHit = false;
+    }
+    // Bottom
+    if (player.xPos > window.innerHeight){
+      player.bottomBorderHit = true;
+      //this.jumping = false;
+      player.verVel = 2;
+    }
+  };
 }
