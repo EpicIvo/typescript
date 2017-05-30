@@ -1,6 +1,7 @@
 import Player from "./player/Player";
 import Checkpoint from "./checkpoint/Checkpoint";
 import Util from "./utils/Util";
+import Platform from "./platform/Platform";
 
 class Game {
 
@@ -10,11 +11,14 @@ class Game {
 
   private player: Player;
   private checkpoint1: Checkpoint;
+  private platform: Platform;
 
   private constructor() {
     this.util = new Util();
     this.player = new Player();
     this.checkpoint1 = new Checkpoint(16);
+    this.platform = new Platform();
+
     requestAnimationFrame(() => this.gameLoop());
   }
 
@@ -26,8 +30,13 @@ class Game {
   };
 
   gameLoop = (): void => {
+    // Checkpoint collision
     if(this.util.checkCollision(this.player, this.checkpoint1)){
       this.gameEnd();
+    }
+    // Platform collision
+    if(this.util.checkCollision(this.platform, this.player)){
+      //TODO: New idle behaviour?
     }
     this.player.draw();
     this.util.checkForScreenBorders(this.player);
