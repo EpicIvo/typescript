@@ -40,11 +40,9 @@ export default class Player extends gameobject {
 
   public draw = (): void => {
     this.Behaviour.move();
-    if (this.DPressed) {
-      this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
-    } else if (this.APressed) {
+    if (this.APressed){
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
-    } else if (this.jumping){
+    }else{
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
     }
   };

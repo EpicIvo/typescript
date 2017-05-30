@@ -22,9 +22,9 @@ export default class Jump implements Behaviour{
         this.player.jumping = false;
         this.player.Behaviour = new Move(this.player);
       }
-      if(this.player.DPressed){
+      if(this.player.DPressed && !this.player.rightBorderHit){
         this.player.horVel = 10;
-      }else if (this.player.APressed){
+      }else if (this.player.APressed && !this.player.leftBorderHit){
         this.player.horVel = -10;
       }else{
         this.player.horVel = 0;
