@@ -13,8 +13,8 @@ export default class Player extends gameobject {
   public APressed: boolean = false;
   //public jumping: boolean = false;
 
-  private rightBorderHit: boolean = false;
-  private leftBorderHit: boolean = false;
+  public rightBorderHit: boolean = false;
+  public leftBorderHit: boolean = false;
   //private bottomBorderHit: boolean = false;
 
   private KeyboardInput: KeyboardInput;
@@ -24,7 +24,6 @@ export default class Player extends gameobject {
     // Player position
     this.yPos = window.innerHeight - (this.height * 1.2);
     this.xPos = 20;
-    this.horVel = 10;
     this.verVel = 8;
     // Player element
     this.element.className = 'player';
@@ -35,16 +34,15 @@ export default class Player extends gameobject {
     document.addEventListener('keydown', this.KeyboardInput.keyboardDownEventListener);
     document.addEventListener('keyup', this.KeyboardInput.keyboardUpEventListener);
     // Behaviours
-    this.Behaviour = new Move(this, this.horVel, this.verVel);
+    this.Behaviour = new Move(this);
   }
 
   public draw = (): void => {
-    if (this.DPressed && this.rightBorderHit == false){
-      this.Behaviour.moveRight();
+
+    this.Behaviour.move();
+    if (this.DPressed) {
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
-    }
-    if (this.APressed && this.leftBorderHit == false){
-      this.Behaviour.moveLeft();
+    } else if (this.APressed) {
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
     }
   };

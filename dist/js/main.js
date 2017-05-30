@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5448efad0c2ffc3bd600"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "061a7b1da52cc6614bcf"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -631,9 +631,7 @@
 /******/ 		}
 /******/ 	
 /******/ 		hotSetStatus("idle");
-/******/ 		return new Promise(function(resolve) {
-/******/ 			resolve(outdatedModules);
-/******/ 		});
+/******/ 		return Promise.resolve(outdatedModules);
 /******/ 	}
 /******/
 /******/ 	// The module cache
@@ -706,7 +704,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(10)(__webpack_require__.s = 10);
+/******/ 	return hotCreateRequire(11)(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -738,20 +736,24 @@ exports.default = GameObject;
 Object.defineProperty(exports, "__esModule", { value: true });
 const Player_1 = __webpack_require__(5);
 const Checkpoint_1 = __webpack_require__(3);
-const Util_1 = __webpack_require__(6);
+const Util_1 = __webpack_require__(7);
 class Game {
     constructor() {
         this.gameLoop = () => {
             if (this.util.checkCollision(this.player, this.checkpoint1)) {
                 this.gameEnd();
-                this.player = null;
             }
             this.player.draw();
+            this.util.checkForScreenBorders(this.player);
             // Loop the game
             requestAnimationFrame(() => this.gameLoop());
         };
         this.gameEnd = () => {
             this.checkpoint1.endGame();
+            this.player = null;
+            this.checkpoint1 = null;
+            this.player.element.removeChild(this.player.element);
+            this.checkpoint1.element.removeChild(this.checkpoint1.element);
         };
         this.util = new Util_1.default();
         this.player = new Player_1.default();
@@ -811,7 +813,7 @@ if(true) {
 					check();
 				}
 
-				__webpack_require__(9)(updatedModules, renewedModules);
+				__webpack_require__(10)(updatedModules, renewedModules);
 
 				if(upToDate()) {
 					console.log("[HMR] App is up to date.");
@@ -827,7 +829,7 @@ if(true) {
 			}
 		});
 	};
-	var hotEmitter = __webpack_require__(8);
+	var hotEmitter = __webpack_require__(9);
 	hotEmitter.on("webpackHotUpdate", function(currentHash) {
 		lastHash = currentHash;
 		if(!upToDate()) {
@@ -895,18 +897,20 @@ exports.default = Checkpoint;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 class Move {
-    //public jumpUp: boolean = false;
-    constructor(p, horVel, verVel) {
+    constructor(p) {
         this.player = p;
-        this.horVel = horVel;
-        this.verVel = verVel;
-        this.currentY = this.player.yPos;
     }
-    moveRight() {
-        this.player.xPos += this.horVel;
-    }
-    moveLeft() {
-        this.player.xPos -= this.horVel;
+    move() {
+        if (this.player.DPressed && this.player.rightBorderHit == false) {
+            this.player.horVel = 10;
+        }
+        else if (this.player.APressed && this.player.leftBorderHit == false) {
+            this.player.horVel = -10;
+        }
+        else {
+            this.player.horVel = 0;
+        }
+        this.player.xPos += this.player.horVel;
     }
 }
 exports.default = Move;
@@ -921,6 +925,7 @@ exports.default = Move;
 Object.defineProperty(exports, "__esModule", { value: true });
 const gameobject_1 = __webpack_require__(0);
 const Move_1 = __webpack_require__(4);
+const KeyboardInput_1 = __webpack_require__(6);
 class Player extends gameobject_1.default {
     constructor() {
         super(77.2, 99.6, 'img');
@@ -929,52 +934,51 @@ class Player extends gameobject_1.default {
         //public jumping: boolean = false;
         this.rightBorderHit = false;
         this.leftBorderHit = false;
-        this.bottomBorderHit = false;
         this.draw = () => {
-            this.checkForScreenBorders();
-            if (this.DPressed && this.rightBorderHit == false) {
-                this.Behaviour.moveRight();
+            this.Behaviour.move();
+            if (this.DPressed) {
                 this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
             }
-            if (this.APressed && this.leftBorderHit == false) {
-                this.Behaviour.moveLeft();
+            else if (this.APressed) {
                 this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
             }
-            // if (this.jumping && this.DPressed){
-            //   this.Behaviour.jump();
-            //   this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
-            // }else if (this.jumping) {
-            //   this.Behaviour.jump();
-            //   this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
-            // }
         };
-        this.checkForScreenBorders = () => {
-            // Left and right
-            if (this.xPos + (this.width * 1.40) > window.innerWidth) {
-                this.rightBorderHit = true;
-            }
-            else if (this.xPos + (this.width * 0.15) < 0) {
-                this.leftBorderHit = true;
-            }
-            else {
-                this.leftBorderHit = false;
-                this.rightBorderHit = false;
-            }
-            // Bottom
-            if (this.xPos > window.innerHeight) {
-                this.bottomBorderHit = true;
-                //this.jumping = false;
-                this.verVel = 2;
-            }
-        };
+        // Player position
+        this.yPos = window.innerHeight - (this.height * 1.2);
+        this.xPos = 20;
+        this.verVel = 8;
+        // Player element
+        this.element.className = 'player';
+        this.element.setAttribute('src', 'img/player.png');
+        this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
+        // Keyboard input
+        this.KeyboardInput = new KeyboardInput_1.default(this);
+        document.addEventListener('keydown', this.KeyboardInput.keyboardDownEventListener);
+        document.addEventListener('keyup', this.KeyboardInput.keyboardUpEventListener);
+        // Behaviours
+        this.Behaviour = new Move_1.default(this);
+    }
+}
+exports.default = Player;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class KeyboardInput {
+    constructor(player) {
         this.keyboardDownEventListener = (event) => {
             switch (event.key) {
                 case "d":
-                    this.DPressed = true;
+                    this.player.DPressed = true;
                     break;
                 case "a":
-                    this.horVel *= -1;
-                    this.APressed = true;
+                    this.player.horVel *= -1;
+                    this.player.APressed = true;
                     break;
                 case " ":
                     //this.jumping = true;
@@ -987,10 +991,10 @@ class Player extends gameobject_1.default {
         this.keyboardUpEventListener = (event) => {
             switch (event.key) {
                 case "d":
-                    this.DPressed = false;
+                    this.player.DPressed = false;
                     break;
                 case "a":
-                    this.APressed = false;
+                    this.player.APressed = false;
                     break;
                 case " ":
                     break;
@@ -998,27 +1002,14 @@ class Player extends gameobject_1.default {
                     break;
             }
         };
-        // Player position
-        this.yPos = window.innerHeight - (this.height * 1.2);
-        this.xPos = 20;
-        this.horVel = 10;
-        this.verVel = 8;
-        // Player element
-        this.element.className = 'player';
-        this.element.setAttribute('src', 'img/player.png');
-        this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
-        // Keyboard input
-        document.addEventListener('keydown', this.keyboardDownEventListener);
-        document.addEventListener('keyup', this.keyboardUpEventListener);
-        // Behaviours
-        this.Behaviour = new Move_1.default(this, this.horVel, this.verVel);
+        this.player = player;
     }
 }
-exports.default = Player;
+exports.default = KeyboardInput;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1034,13 +1025,32 @@ class Util {
                 return true;
             }
         };
+        this.checkForScreenBorders = (player) => {
+            // Left and right
+            if (player.xPos + (player.width * 1.40) > window.innerWidth) {
+                player.rightBorderHit = true;
+            }
+            else if (player.xPos + (player.width * 0.15) < 0) {
+                player.leftBorderHit = true;
+            }
+            else {
+                player.leftBorderHit = false;
+                player.rightBorderHit = false;
+            }
+            // Bottom
+            if (player.xPos > window.innerHeight) {
+                player.bottomBorderHit = true;
+                //this.jumping = false;
+                player.verVel = 2;
+            }
+        };
     }
 }
 exports.default = Util;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -1348,15 +1358,15 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var EventEmitter = __webpack_require__(7);
+var EventEmitter = __webpack_require__(8);
 module.exports = new EventEmitter();
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 /*
@@ -1392,7 +1402,7 @@ module.exports = function(updatedModules, renewedModules) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(2);
