@@ -19,11 +19,5 @@ export default class Util {
       player.leftBorderHit = false;
       player.rightBorderHit = false;
     }
-    // Bottom
-    if (player.xPos > window.innerHeight){
-      player.bottomBorderHit = true;
-      //this.jumping = false;
-      player.verVel = 2;
-    }
   };
 }
