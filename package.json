@@ -1,7 +1,7 @@
 {
-  "name": "prg04_week0",
+  "name": "quickRun",
   "version": "1.0.0",
-  "description": "prg04",
+  "description": "A game made in Typescript",
   "main": "dist/index.html",
   "scripts": {
     "start": "rm -rf dist/js/main.js && webpack && webpack-dev-server --config webpack.config.babel.js --hot --inline",
@@ -28,6 +28,7 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "dependencies": {
+    "bounce.js": "^0.8.2",
     "typescript": "^2.3.2",
     "webpack": "^2.4.1"
   }

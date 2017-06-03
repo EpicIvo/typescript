@@ -30,6 +30,7 @@ class Game {
   };
 
   gameLoop = (): void => {
+    console.log(this.checkpoint1.xPos);
     // Checkpoint collision
     if(this.util.checkCollision(this.player, this.checkpoint1)){
       this.gameEnd();
