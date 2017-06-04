@@ -30,16 +30,13 @@ class Game {
   };
 
   gameLoop = (): void => {
-    console.log(this.checkpoint1.xPos);
+    this.player.draw();
     // Checkpoint collision
     if(this.util.checkCollision(this.player, this.checkpoint1)){
       this.gameEnd();
     }
     // Platform collision
-    if(this.util.checkCollision(this.platform, this.player)){
-      //TODO: New idle behaviour?
-    }
-    this.player.draw();
+    //this.util.checkForPlatformcollision(this.player, this.platform);
     this.util.checkForScreenBorders(this.player);
     // Loop the game
     requestAnimationFrame(() => this.gameLoop());

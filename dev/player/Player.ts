@@ -1,6 +1,6 @@
 import gameobject from '../gameobject';
 import Behaviour from './Behaviour';
-import Move from './Move';
+import Move from './player-states/Move';
 import KeyboardInput from '../utils/KeyboardInput';
 
 export default class Player extends gameobject {
@@ -12,10 +12,13 @@ export default class Player extends gameobject {
 
   public DPressed: boolean = false;
   public APressed: boolean = false;
+  public spacebarPressed: boolean = false;
   public jumping: boolean = false;
 
-  public rightBorderHit: boolean = false;
-  public leftBorderHit: boolean = false;
+  public oldYPos: number;
+
+  //public rightBorderHit: boolean = false;
+  //public leftBorderHit: boolean = false;
   //private bottomBorderHit: boolean = false;
 
   private KeyboardInput: KeyboardInput;
@@ -38,12 +41,20 @@ export default class Player extends gameobject {
     this.Behaviour = new Move(this);
   }
 
+  private calculateOldYPos(){
+    if(!this.jumping){
+      this.oldYPos = this.yPos;
+    }
+  }
+
   public draw = (): void => {
     this.Behaviour.move();
     if (this.APressed){
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
-    }else{
+    }else {
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
     }
+    // yea
+    this.calculateOldYPos();
   };
 }

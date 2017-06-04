@@ -1,5 +1,4 @@
 import Player from "../player/Player";
-import Jump from "../player/Jump";
 
 export default class KeyboardInput{
 
@@ -19,7 +18,8 @@ export default class KeyboardInput{
         this.player.APressed = true;
         break;
       case " ":
-        this.player.Behaviour = new Jump(this.player);
+        this.player.spacebarPressed = true;
+        //this.player.Behaviour = new Jump(this.player);
         break;
       default:
         break;
@@ -35,6 +35,7 @@ export default class KeyboardInput{
         this.player.APressed = false;
         break;
       case " ":
+        this.player.spacebarPressed = false;
         break;
       default:
         break;
