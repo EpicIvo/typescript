@@ -12,27 +12,34 @@ export default class Move implements Behaviour {
   public move() {
 
     if (this.player.spacebarPressed) {
-      if (!this.player.jumping){
+      if (!this.player.jumping) {
         this.player.verVel = 20;
         this.player.jumping = true;
       }
     }
 
-    if (this.player.jumping){
+    if (this.player.jumping) {
       this.player.yPos -= this.player.verVel;
       this.player.verVel -= this.player.gravity;
 
-      if (this.player.yPos >= this.player.oldYPos) {
+      if (!this.player.isOnPlatform) {
+        if (this.player.yPos >= window.innerHeight - this.player.height - 20.4) {
+          this.player.yPos = window.innerHeight - this.player.height - 20.4
           this.player.jumping = false;
         }
+      }
     }
 
-    if (this.player.DPressed) {
-      this.player.horVel = 10;
-    } else if (this.player.APressed) {
-      this.player.horVel = -10;
-    } else {
+    if (this.player.APressed && this.player.DPressed) {
       this.player.horVel = 0;
+    } else {
+      if (this.player.DPressed) {
+        this.player.horVel = 10;
+      } else if (this.player.APressed) {
+        this.player.horVel = -10;
+      } else {
+        this.player.horVel = 0;
+      }
     }
     this.player.xPos += this.player.horVel;
   }

@@ -30,13 +30,14 @@ class Game {
   };
 
   gameLoop = (): void => {
+    console.log(this.player.verVel);
     this.player.draw();
     // Checkpoint collision
     if(this.util.checkCollision(this.player, this.checkpoint1)){
       this.gameEnd();
     }
     // Platform collision
-    //this.util.checkForPlatformcollision(this.player, this.platform);
+    this.util.checkForPlatformCollision(this.player, this.platform);
     this.util.checkForScreenBorders(this.player);
     // Loop the game
     requestAnimationFrame(() => this.gameLoop());

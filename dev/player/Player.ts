@@ -16,6 +16,15 @@ export default class Player extends gameobject {
   public jumping: boolean = false;
 
   public oldYPos: number;
+  public collided: boolean = false;
+
+  public hitRightApplicable: boolean = true;
+  public hitLeftApplicable: boolean = false;
+  public hitTopApplicable: boolean = false;
+  public hitBottomApplicable: boolean = true;
+
+  // yPos specifics
+  public isOnPlatform: boolean = false;
 
   //public rightBorderHit: boolean = false;
   //public leftBorderHit: boolean = false;
@@ -26,7 +35,8 @@ export default class Player extends gameobject {
   constructor() {
     super(77.2, 99.6, 'img');
     // Player position
-    this.yPos = window.innerHeight - (this.height * 1.2);
+
+    this.yPos = window.innerHeight - this.height - 20.4;
     this.xPos = 20;
     this.gravity = 1;
     // Player element

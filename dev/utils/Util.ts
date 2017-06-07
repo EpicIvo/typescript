@@ -19,8 +19,67 @@ export default class Util {
       player.Behaviour = new HitRight(player);
     } else if (player.xPos + (player.width * 0.15) < 0) {
       player.Behaviour = new HitLeft(player);
-    } else {
+    } else if (!player.collided) {
       player.Behaviour = new Move(player);
     }
+  };
+  checkForPlatformCollision = (player: any, platform: any): void => {
+
+    if (player.xPos + player.width < platform.xPos + 20) {
+      player.hitRightApplicable = true;
+    } else {
+      player.hitRightApplicable = false;
+    }
+    if (player.xPos > platform.xPos + platform.width - 30) {
+      player.hitLeftApplicable = true;
+    } else {
+      player.hitLeftApplicable = false;
+    }
+
+    if (player.yPos + player.height > platform.yPos + platform.height) {
+      player.hitBottomApplicable = true;
+    } else {
+      player.hitBottomApplicable = false;
+    }
+    if (player.height + player.yPos < platform.yPos) {
+      player.hitTopApplicable = true;
+    } else {
+      player.hitTopApplicable = false;
+    }
+
+    if (
+      player.hitRightApplicable &&
+      player.xPos + player.width > platform.xPos &&
+      player.yPos < platform.yPos + platform.height &&
+      player.height + player.yPos > platform.yPos
+    ) {
+      player.collided = true;
+      player.Behaviour = new HitRight(player);
+    } else if (
+      player.hitLeftApplicable &&
+      player.xPos < platform.xPos + platform.width + 10 &&
+      player.yPos < platform.yPos + platform.height &&
+      player.height + player.yPos > platform.yPos
+    ) {
+      player.collided = true;
+      player.Behaviour = new HitLeft(player);
+    } else if (!player.hitRightApplicable && !player.hitLeftApplicable) {
+      if (!player.hitBottomApplicable && player.height + player.yPos >= platform.yPos) {
+        player.verVel = 0;
+        player.jumping = false;
+        player.isOnPlatform = true;
+      } else if (!player.hitTopApplicable && player.yPos < platform.yPos + platform.height){
+        player.verVel = -1;
+      }
+    }  else {
+      player.isOnPlatform = false;
+      player.collided = false;
+    }
+
+    // General floating check
+    if (player.yPos < window.innerHeight - player.height - 20.4 && !(!player.hitRightApplicable && !player.hitLeftApplicable)){ // Alright, please don't ask. Somehow this does work...
+      player.jumping = true;
+    }
+
   };
 }

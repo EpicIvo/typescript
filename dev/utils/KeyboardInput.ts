@@ -19,7 +19,6 @@ export default class KeyboardInput{
         break;
       case " ":
         this.player.spacebarPressed = true;
-        //this.player.Behaviour = new Jump(this.player);
         break;
       default:
         break;
