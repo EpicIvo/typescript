@@ -68,7 +68,7 @@ export default class Util {
         player.verVel = 0;
         player.jumping = false;
         player.isOnPlatform = true;
-      } else if (!player.hitTopApplicable && player.yPos < platform.yPos + platform.height){
+      } else if (!player.hitTopApplicable && player.yPos < platform.yPos + (platform.height - 15)){
         player.verVel = -1;
       }
     }  else {
@@ -77,7 +77,7 @@ export default class Util {
     }
 
     // General floating check
-    if (player.yPos < window.innerHeight - player.height - 20.4 && !(!player.hitRightApplicable && !player.hitLeftApplicable)){ // Alright, please don't ask. Somehow this does work...
+    if (player.yPos < window.innerHeight - player.height - 9 && !(!player.hitRightApplicable && !player.hitLeftApplicable)){ // Alright, please don't ask. Somehow this does work...
       player.jumping = true;
     }
 

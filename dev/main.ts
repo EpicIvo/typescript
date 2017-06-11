@@ -10,15 +10,14 @@ class Game {
   private util: Util;
 
   private player: Player;
-  private checkpoint1: Checkpoint;
+  private checkpoint: Checkpoint;
   private platform: Platform;
 
   private constructor() {
     this.util = new Util();
     this.player = new Player();
-    this.checkpoint1 = new Checkpoint(16);
-    this.platform = new Platform();
-
+    this.checkpoint = new Checkpoint();
+    this.platform = new Platform(150, 3);
     requestAnimationFrame(() => this.gameLoop());
   }
 
@@ -30,11 +29,19 @@ class Game {
   };
 
   gameLoop = (): void => {
-    console.log(this.player.verVel);
     this.player.draw();
     // Checkpoint collision
-    if(this.util.checkCollision(this.player, this.checkpoint1)){
+    if(this.util.checkCollision(this.player, this.checkpoint)){
+      this.checkpoint.element.remove();
+      this.player.timeToLive += 1;
+      this.player.score += 1;
+      this.checkpoint = new Checkpoint();
+    }
+    //Times up?
+    if(this.player.timesUp){
+      this.player.endGame();
       this.gameEnd();
+      document.getElementById('timer').innerHTML = "Score: " + this.player.score;
     }
     // Platform collision
     this.util.checkForPlatformCollision(this.player, this.platform);
@@ -44,11 +51,11 @@ class Game {
   };
 
   gameEnd = (): void => {
-    this.checkpoint1.endGame();
-    this.player = null;
-    this.checkpoint1 = null;
-    this.player.element.removeChild(this.player.element);
-    this.checkpoint1.element.removeChild(this.checkpoint1.element);
+    this.player.endGame();
+    this.player.element.remove();
+    this.platform.element.remove();
+    this.checkpoint.element.remove();
+    document.body.style.fontSize = '150px';
   }
 }
 

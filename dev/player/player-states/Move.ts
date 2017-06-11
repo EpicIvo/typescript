@@ -23,8 +23,8 @@ export default class Move implements Behaviour {
       this.player.verVel -= this.player.gravity;
 
       if (!this.player.isOnPlatform) {
-        if (this.player.yPos >= window.innerHeight - this.player.height - 20.4) {
-          this.player.yPos = window.innerHeight - this.player.height - 20.4
+        if (this.player.yPos >= window.innerHeight - this.player.height - 9) {
+          this.player.yPos = window.innerHeight - this.player.height - 9
           this.player.jumping = false;
         }
       }

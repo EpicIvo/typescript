@@ -26,6 +26,11 @@ export default class Player extends gameobject {
   // yPos specifics
   public isOnPlatform: boolean = false;
 
+  public score: number = 0;
+  public timeToLive: number;
+  public timesUp: boolean = false;
+  private counting: number;
+
   //public rightBorderHit: boolean = false;
   //public leftBorderHit: boolean = false;
   //private bottomBorderHit: boolean = false;
@@ -36,7 +41,7 @@ export default class Player extends gameobject {
     super(77.2, 99.6, 'img');
     // Player position
 
-    this.yPos = window.innerHeight - this.height - 20.4;
+    this.yPos = window.innerHeight - this.height - 9;
     this.xPos = 20;
     this.gravity = 1;
     // Player element
@@ -49,6 +54,9 @@ export default class Player extends gameobject {
     document.addEventListener('keyup', this.KeyboardInput.keyboardUpEventListener);
     // Behaviours
     this.Behaviour = new Move(this);
+    // Extra vars
+    this.timeToLive = 16;
+    this.countDown();
   }
 
   private calculateOldYPos(){
@@ -56,6 +64,28 @@ export default class Player extends gameobject {
       this.oldYPos = this.yPos;
     }
   }
+
+  protected countDown = (): void => {
+    if (this.timeToLive > 4) {
+      this.timeToLive -= 1;
+      document.getElementById('timer').innerHTML = "Seconds left: " + this.timeToLive;
+      this.counting = setTimeout(this.countDown, 1000);
+    } else if (this.timeToLive <= 4 && this.timeToLive > 0) {
+      document.getElementById('timer').style.color = 'red'
+      this.timeToLive -= 1;
+      document.getElementById('timer').innerHTML = "Seconds left: " + this.timeToLive;
+      this.counting = setTimeout(this.countDown, 1000);
+    } else if (this.timeToLive == 0){
+      document.getElementById('timer').style.color = 'white'
+      this.timesUp = true;
+      this.endGame();
+    }
+  };
+
+  public endGame = (): void => {
+    clearTimeout(this.counting);
+    this.element.remove();
+  };
 
   public draw = (): void => {
     this.Behaviour.move();

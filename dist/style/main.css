@@ -5,15 +5,15 @@
 }
 
 .timer{
+    position: fixed;
     text-align: center;
-    width: 400px;
+    width: 100%;
 }
 
 body {
     font-family: Montserrat, Arial, sans-serif;
     font-size:20px;
     overflow:hidden;
-    margin:0; padding:20px;
     background-color: cornflowerblue;
     color: #FFFFFF;
 }
