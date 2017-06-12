@@ -18,6 +18,9 @@ class Game {
     this.player = new Player();
     this.checkpoint = new Checkpoint();
     this.platform = new Platform(150, 3);
+
+    this.player.subscribe(this.checkpoint);
+
     requestAnimationFrame(() => this.gameLoop());
   }
 
@@ -51,6 +54,7 @@ class Game {
   };
 
   gameEnd = (): void => {
+    this.player.unsubscribe(this.checkpoint);
     this.player.endGame();
     this.player.element.remove();
     this.platform.element.remove();

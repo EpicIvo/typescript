@@ -1,19 +1,17 @@
 import gameobject from '../gameobject';
 import * as Bounce from '../../node_modules/bounce.js';
+import './Observer';
 
-export default class Checkpoint extends gameobject {
-
+export default class Checkpoint extends gameobject implements Observer{
   constructor() {
     super(100, 100, 'img');
     // Fill element
     this.element.className = 'checkpoint';
     this.element.setAttribute('src', 'img/potion.png');
-
     // Set position
     this.yPos = window.innerHeight - this.height;
     this.xPos = Math.random() * window.innerWidth;
     this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
-
     //Extra vars
     this.animation();
   }
@@ -39,5 +37,11 @@ export default class Checkpoint extends gameobject {
       .applyTo(this.element);
     // Loop the function
     setTimeout(this.animation, 2000);
+  };
+  //Observer pattern
+  public notify = (): void => {
+    console.log('Notify!');
+    this.yPos = window.innerHeight - (this.height * 2);
+    this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
   };
 }
