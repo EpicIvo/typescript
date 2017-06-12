@@ -31,9 +31,7 @@ export default class Player extends gameobject {
   public timesUp: boolean = false;
   private counting: number;
 
-  //public rightBorderHit: boolean = false;
-  //public leftBorderHit: boolean = false;
-  //private bottomBorderHit: boolean = false;
+  private observerCollection: Array<Observer>;
 
   private KeyboardInput: KeyboardInput;
 
@@ -57,13 +55,14 @@ export default class Player extends gameobject {
     // Extra vars
     this.timeToLive = 16;
     this.countDown();
-  }
+    this.observerCollection = new Array<Observer>();
+  };
 
-  private calculateOldYPos(){
-    if(!this.jumping){
+  private calculateOldYPos() {
+    if (!this.jumping) {
       this.oldYPos = this.yPos;
     }
-  }
+  };
 
   protected countDown = (): void => {
     if (this.timeToLive > 4) {
@@ -71,11 +70,12 @@ export default class Player extends gameobject {
       document.getElementById('timer').innerHTML = "Seconds left: " + this.timeToLive;
       this.counting = setTimeout(this.countDown, 1000);
     } else if (this.timeToLive <= 4 && this.timeToLive > 0) {
+      this.notifyObservers();
       document.getElementById('timer').style.color = 'red'
       this.timeToLive -= 1;
       document.getElementById('timer').innerHTML = "Seconds left: " + this.timeToLive;
       this.counting = setTimeout(this.countDown, 1000);
-    } else if (this.timeToLive == 0){
+    } else if (this.timeToLive == 0) {
       document.getElementById('timer').style.color = 'white'
       this.timesUp = true;
       this.endGame();
@@ -89,12 +89,33 @@ export default class Player extends gameobject {
 
   public draw = (): void => {
     this.Behaviour.move();
-    if (this.APressed){
+    if (this.APressed) {
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(-1)';
-    }else {
+    } else {
       this.element.style.transform = 'translate(' + this.xPos + 'px, ' + this.yPos + 'px) ScaleX(1)';
     }
     // yea
     this.calculateOldYPos();
+  };
+
+  //Observer pattern
+  public subscribe(o: Observer) {
+    this.observerCollection.push(o);
+  };
+
+  public unsubscribe(o: Observer) {
+    for (let i = 0; i < this.observerCollection.length; i++) {
+      if (this.observerCollection[i] == o) {
+        this.observerCollection.splice(i, 1);
+      }
+    }
+  };
+
+  public notifyObservers() {
+    for (let o in this.observerCollection) {
+      for (let i = 0; i < this.observerCollection.length; i++) {
+        this.observerCollection[i].notify();
+      }
+    }
   };
 }

@@ -1,4 +1,5 @@
 import Player from "../player/Player";
+import Keyboard from "./KeyInputs";
 
 export default class KeyboardInput{
 
@@ -9,15 +10,15 @@ export default class KeyboardInput{
   }
 
   public keyboardDownEventListener = (event: KeyboardEvent): void => {
-    switch (event.key) {
-      case "d":
+    switch (event.keyCode) {
+      case Keyboard.RIGHT:
         this.player.DPressed = true;
         break;
-      case "a":
+      case Keyboard.LEFT:
         this.player.horVel *= -1;
         this.player.APressed = true;
         break;
-      case " ":
+      case Keyboard.UP:
         this.player.spacebarPressed = true;
         break;
       default:
@@ -26,14 +27,14 @@ export default class KeyboardInput{
   };
 
   public keyboardUpEventListener = (event: KeyboardEvent): void => {
-    switch (event.key) {
-      case "d":
+    switch (event.keyCode) {
+      case Keyboard.RIGHT:
         this.player.DPressed = false;
         break;
-      case "a":
+      case Keyboard.LEFT:
         this.player.APressed = false;
         break;
-      case " ":
+      case Keyboard.UP:
         this.player.spacebarPressed = false;
         break;
       default:
