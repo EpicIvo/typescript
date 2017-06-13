@@ -1,6 +1,6 @@
 # Typescript game
 
-`http://ivovanderknaap.nl/typescript/dist/`
+Link to the game: `http://ivovanderknaap.nl/typescript/dist/`
 
 ### UML - diagram
 
@@ -26,6 +26,30 @@ The game obejct itself is a singleton.
 #### Strategy
 
 The movement of the player is stated in a different class than the player class. This is made accoring to the strategy pattern.
+
+#### Observer pattern
+
+The checkpoints are all observers listening to the player. If the player's time to live gets below 3 seconds the all of the checkpoint's y positions move up to twice their height.
+
+#### Abstract class
+
+The gameobject which is the basic blueprint for all game objects is an abstract class.
+
+#### Polymorphism
+
+Through composition and inheritance is my game using polymorphism.
+
+#### GameLoop
+
+The game runs on a gameloop which is located in the game object.
+
+#### Namespace
+
+The keyboardInput class is located in a namespace 'keyHandlers'.
+
+#### Enums
+
+The keyboard uses a enumeration for easier keyCode bindings.
 
 #### Encapsulation
 

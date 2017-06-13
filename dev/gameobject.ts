@@ -1,4 +1,4 @@
-export default class GameObject {
+abstract class GameObject {
 
   public xPos:number;
   public yPos:number;
@@ -16,3 +16,5 @@ export default class GameObject {
     document.body.appendChild(this.element);
   }
 }
+
+export default GameObject;
