@@ -84,6 +84,7 @@ export default class Player extends gameobject {
 
   public endGame = (): void => {
     clearTimeout(this.counting);
+    this.KeyboardInput = null;
     this.element.remove();
   };
 

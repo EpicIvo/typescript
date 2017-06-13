@@ -34,14 +34,15 @@ class Game {
   gameLoop = (): void => {
     this.player.draw();
     // Checkpoint collision
-    if(this.util.checkCollision(this.player, this.checkpoint)){
+    if (this.util.checkCollision(this.player, this.checkpoint)) {
       this.checkpoint.element.remove();
       this.player.timeToLive += 1;
       this.player.score += 1;
       this.checkpoint = new Checkpoint();
+      this.player.subscribe(this.checkpoint);
     }
     //Times up?
-    if(this.player.timesUp){
+    if (this.player.timesUp) {
       this.player.endGame();
       this.gameEnd();
       document.getElementById('timer').innerHTML = "Score: " + this.player.score;

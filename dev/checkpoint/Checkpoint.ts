@@ -40,7 +40,6 @@ export default class Checkpoint extends gameobject implements Observer{
   };
   //Observer pattern
   public notify = (): void => {
-    console.log('Notify!');
     this.yPos = window.innerHeight - (this.height * 2);
     this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
   };
