@@ -1,7 +1,7 @@
 import gameobject from '../gameobject';
 import Behaviour from './Behaviour';
 import Move from './player-states/Move';
-import KeyboardInput from '../utils/KeyboardInput';
+import keyHandlers from '../utils/KeyboardInput';
 
 export default class Player extends gameobject {
   public Behaviour: Behaviour;
@@ -33,7 +33,7 @@ export default class Player extends gameobject {
 
   private observerCollection: Array<Observer>;
 
-  private KeyboardInput: KeyboardInput;
+  private KeyboardInput: keyHandlers.KeyboardInput;
 
   constructor() {
     super(77.2, 99.6, 'img');
@@ -47,7 +47,7 @@ export default class Player extends gameobject {
     this.element.setAttribute('src', 'img/player.png');
     this.element.style.transform = 'translate(' + this.xPos + 'px,' + this.yPos + 'px)';
     // Keyboard input
-    this.KeyboardInput = new KeyboardInput(this);
+    this.KeyboardInput = new keyHandlers.KeyboardInput(this);
     document.addEventListener('keydown', this.KeyboardInput.keyboardDownEventListener);
     document.addEventListener('keyup', this.KeyboardInput.keyboardUpEventListener);
     // Behaviours
