@@ -63,7 +63,7 @@ The game has a player and a checkpoint.
 
 There is a base class called gameObject that has standard properties. The player and checkpoint class extend this class.
 
-### Feedback
+### Feedback Week 4
 
 De Game krijgt van mij een voldoende. 
 - Interface is aanwezige in behaviour met de bijbehorende functies. In dit geval Move die Behaviour implement. 
@@ -74,3 +74,20 @@ De Game krijgt van mij een voldoende.
 - De player heeft een checkpoint en er dus composition.
 - GameObject is aangemaakt en hieruit erft checkpoint en player. Er is dus extends functies en daardoor ook inheritance.
 - Toevoeging: player en checkpoint removement toegevoegd.
+
+
+### Feedback Week 7
+
+Deze game krijgt van mij een voldoende. Hij voldoet aan alle eisen die zijn gesteld: 
+
+- Interface zit in behaviour en natuurlijk in het 
+- De Utlil method is een static die controleert of twee objecten elkaar raken. 
+- De Game class is een singleton. Je kunt getInstance doen om een instantie aan te maken van de game of om een instantie terug te krijgen als deze al is aangemaakt.
+- In player staat niet de code voor het lopen dit word afgehandeld in de player-states. Hierdoor is de code netjes gescheiden en is het Strategy pattern toegepast. 
+- Er word gebruikt gemaakt van public, private en proctected functies en variabele dus encapsulation is correct toegepast. 
+- Player, Platform en checkpoint erven van GameObject. Hierdoor is inheritance toegepast.
+- Namespace is toegepast in de keyboardInput class
+- Enumeraties zijn teogepast in het binden van de Keycodes.
+- GameObject is een abstract class dit is de blueprint voor alle gameobjecten. Hier mag geen instance van gemaakt worden.
+- Observer pattern is toegepast. De checkpoints zijn de observer en de player is de observable.
+- Als library is er gebruik gemaakt van bounce.js deze zorgt voor de animatie van de checkpoints. Deze library is een animatie library en laat de checkpoints op en neer bewegen. 
