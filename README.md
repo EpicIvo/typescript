@@ -90,4 +90,11 @@ Deze game krijgt van mij een voldoende. Hij voldoet aan alle eisen die zijn gest
 - Enumeraties zijn teogepast in het binden van de Keycodes.
 - GameObject is een abstract class dit is de blueprint voor alle gameobjecten. Hier mag geen instance van gemaakt worden.
 - Observer pattern is toegepast. De checkpoints zijn de observer en de player is de observable.
-- Als library is er gebruik gemaakt van bounce.js deze zorgt voor de animatie van de checkpoints. Deze library is een animatie library en laat de checkpoints op en neer bewegen. 
+- Als library is er gebruik gemaakt van bounce.js deze zorgt voor de animatie van de checkpoints. Deze library is een animatie library en laat de checkpoints op en neer bewegen.
+
+### Feedback Week 7 (2)
+
+Alle eisen van week 4 en week 7 zijn verwerkt in je game, zoals je zelf hebt beschreven in je readme.
+Ik kon je game gemakkelijk installeren en lokaal spelen.
+Verder een originele game, goed gedaan! Uiteraard een voldoende :)
+![Voldoende!](https://i.ytimg.com/vi/kPgCc2HKU1c/hqdefault.jpg?custom=true&w=168&h=94&stc=true&jpg444=true&jpgq=90&sp=68&sigh=S_DuGc5-iAMlZ3JEYCoksKfIzaY)
